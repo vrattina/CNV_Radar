@@ -361,6 +361,10 @@ for(i in 1:model_params$iter) {
       # away from an allele frequency of 0.5
       # Bound the smoothed values by their range of possible values
       #---------------------------------------------------------------------
+      nodup_af <- which(!duplicated(6*abs(f$AF[ f$CHROM==chr] - 0.5)^3))
+
+      if ( iterative_fit$cknots > length(nodup_af)) iterative_fit$cknots <- length(nodup_af) 
+      
       preds$afv <- predict(smooth.spline(x = f$POS[ f$CHROM==chr], 
                                          y = 6*abs(f$AF[ f$CHROM==chr] - 0.5)^3, 
                                          nknots = iterative_fit$cknots, 
